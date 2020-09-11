@@ -43,6 +43,7 @@ const cache = new InMemoryCache({
  */
 const authLink = setContext((_, { headers }) => {
   const { authToken } = apolloAuthData()
+
   return {
     headers: {
       ...headers,

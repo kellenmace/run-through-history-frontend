@@ -2,7 +2,7 @@ import React from "react"
 import gql from "graphql-tag"
 import { useQuery } from "@apollo/client"
 
-import { apolloAuthData } from "../services/apollo"
+import { apolloAuthData, client } from "../services/apollo"
 import { setPersistedAuthData, deletePersistedAuthData } from "../services/auth"
 
 const AuthContext = React.createContext()
@@ -30,6 +30,7 @@ export function AuthProvider({ children }) {
       refreshToken: null,
       user: null,
     })
+    client.clearStore()
     deletePersistedAuthData()
   }
 
