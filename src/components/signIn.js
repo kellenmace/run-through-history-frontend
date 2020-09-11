@@ -7,10 +7,8 @@ import SignInForm from "./signInForm"
 
 const StyledPageWrap = styled(PageWrap)`
   max-width: 500px;
-  form {
-    margin-bottom: 2rem;
-  }
   .sign-up-message {
+    margin-top: 2rem;
     font-size: 0.65rem;
   }
 `

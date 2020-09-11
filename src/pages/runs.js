@@ -10,8 +10,8 @@ function RunsPage() {
     <Layout>
       <SEO title="Runs" />
       <PageWrap>
-        <h1>Runs</h1>
         <AuthContent>
+          <h1>Runs</h1>
           <p>If you can see this content, then you're signed in!</p>
         </AuthContent>
       </PageWrap>
