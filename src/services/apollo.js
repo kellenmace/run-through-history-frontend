@@ -24,6 +24,20 @@ export const apolloAuthData = makeVar({
   user: persistedAuthData?.user || null,
 })
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        apolloAuthData: {
+          read() {
+            return apolloAuthData()
+          },
+        },
+      },
+    },
+  },
+})
+
 /**
  * Include auth token in request headers.
  */
@@ -51,7 +65,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 /**
- * Fire off HTTP request.
+ * Handle HTTP requests.
  */
 const httpLink = createHttpLink({
   uri: process.env.GATSBY_WPGRAPHQL_URL,
@@ -60,5 +74,5 @@ const httpLink = createHttpLink({
 
 export const client = new ApolloClient({
   link: ApolloLink.from([authLink, errorLink, httpLink]),
-  cache: new InMemoryCache(),
+  cache,
 })

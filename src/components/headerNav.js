@@ -2,6 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import { Link } from "gatsby"
 
+import useAuth from "../hooks/useAuth"
+
 const StyledNav = styled.nav`
   text-align: right;
   ul {
@@ -27,14 +29,31 @@ const StyledNav = styled.nav`
 `
 
 function HeaderNav() {
+  const { signedIn } = useAuth()
+
   return (
     <StyledNav>
       <ul>
-        <li>
-          <Link to="/">
-            <p>Home</p>
-          </Link>
-        </li>
+        {!signedIn ? (
+          <>
+            <li>
+              <Link to="/sign-in">
+                <p>Sign In</p>
+              </Link>
+            </li>
+            <li>
+              <Link to="/sign-up">
+                <p>Sign Up</p>
+              </Link>
+            </li>
+          </>
+        ) : (
+          <li>
+            <Link to="/sign-out">
+              <p>Sign Out</p>
+            </Link>
+          </li>
+        )}
       </ul>
     </StyledNav>
   )
