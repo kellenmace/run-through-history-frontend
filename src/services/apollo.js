@@ -9,10 +9,10 @@ import { setContext } from "@apollo/client/link/context"
 import { onError } from "@apollo/client/link/error"
 import fetch from "node-fetch"
 
-import { getPersistedAuthData } from "./auth"
+import { getRefreshToken } from "./auth"
 
 const isBrowser = typeof window !== `undefined`
-const persistedAuthData = isBrowser ? getPersistedAuthData() : null
+const refreshToken = isBrowser ? getRefreshToken() : null
 
 /**
  * Reactive variable that stores auth data.
@@ -20,8 +20,8 @@ const persistedAuthData = isBrowser ? getPersistedAuthData() : null
  */
 export const apolloAuthData = makeVar({
   authToken: null,
-  refreshToken: persistedAuthData?.refreshToken || null,
-  user: persistedAuthData?.user || null,
+  refreshToken,
+  user: null,
 })
 
 const cache = new InMemoryCache({
