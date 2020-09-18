@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client"
 
 import { apolloAuthData, client } from "../services/apollo"
 import { setPersistedAuthData, deletePersistedAuthData } from "../services/auth"
+import useAuthTokenRefresher from "./useAuthTokenRefresher"
 
 const AuthContext = React.createContext()
 
@@ -15,8 +16,8 @@ const GET_APOLLO_AUTH_DATA = gql`
 
 export function AuthProvider({ children }) {
   const { data } = useQuery(GET_APOLLO_AUTH_DATA)
-  const signedIn = !!data?.apolloAuthData?.authToken
-  const user = data?.apolloAuthData?.user
+  const signedIn = !!data.apolloAuthData?.authToken
+  const user = data.apolloAuthData?.user
 
   function setAuthData(authData) {
     const { refreshToken, user } = authData
@@ -30,9 +31,11 @@ export function AuthProvider({ children }) {
       refreshToken: null,
       user: null,
     })
-    client.clearStore()
+    client.resetStore()
     deletePersistedAuthData()
   }
+
+  useAuthTokenRefresher(data.apolloAuthData, setAuthData, deleteAuthData)
 
   const value = {
     signedIn,
