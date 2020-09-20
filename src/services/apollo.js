@@ -47,6 +47,9 @@ const getCurrentTimestampInSeconds = () => Math.floor(Date.now() / 1000)
 const isTokenExpired = token =>
   decode(token).exp <= getCurrentTimestampInSeconds()
 
+/**
+ * Refresh auth token if it is expired.
+ */
 const tokenRefreshLink = new TokenRefreshLink({
   accessTokenField: `refreshJwtAuthToken`,
   isTokenValidOrUndefined: () => {
@@ -56,7 +59,7 @@ const tokenRefreshLink = new TokenRefreshLink({
   fetchAccessToken: () => {
     const { refreshToken } = apolloAuthData()
     const query = `
-      mutation RefreshJWTAuthToken($input: RefreshJwtAuthTokenInput!) {
+      mutation refreshJwtAuthToken($input: RefreshJwtAuthTokenInput!) {
         refreshJwtAuthToken(input: $input) {
           authToken
         }
@@ -119,6 +122,33 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 /**
+ * Update the authToken and refreshToken with the updated tokens
+ * sent back in the response headers.
+ */
+const tokenUpdateLink = new ApolloLink((operation, forward) => {
+  return forward(operation).map(response => {
+    const {
+      response: { headers },
+    } = operation.getContext()
+
+    if (headers) {
+      const authToken = headers.get("x-jwt-auth")
+      const refreshToken = headers.get("x-jwt-refresh")
+
+      if (authToken) {
+        setAuthData({ ...apolloAuthData(), authToken })
+      }
+
+      if (refreshToken) {
+        setAuthData({ ...apolloAuthData(), refreshToken })
+      }
+    }
+
+    return response
+  })
+})
+
+/**
  * Handle HTTP requests.
  */
 const httpLink = createHttpLink({
@@ -127,6 +157,12 @@ const httpLink = createHttpLink({
 })
 
 export const client = new ApolloClient({
-  link: ApolloLink.from([tokenRefreshLink, authLink, errorLink, httpLink]),
+  link: ApolloLink.from([
+    tokenRefreshLink,
+    authLink,
+    errorLink,
+    tokenUpdateLink,
+    httpLink,
+  ]),
   cache,
 })
