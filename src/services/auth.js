@@ -1,5 +1,3 @@
-import decode from "jwt-decode"
-
 const AUTH_DATA_KEY = `rthAuthData`
 
 export const getPersistedAuthData = () =>
@@ -13,8 +11,3 @@ export const setPersistedRefreshToken = refreshToken =>
 
 export const deletePersistedAuthData = () =>
   localStorage.removeItem(AUTH_DATA_KEY)
-
-const getCurrentTimestampInSeconds = () => Math.floor(Date.now() / 1000)
-
-export const isTokenExpired = token =>
-  decode(token).exp <= getCurrentTimestampInSeconds()

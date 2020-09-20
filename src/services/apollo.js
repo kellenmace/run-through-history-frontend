@@ -8,7 +8,11 @@ import {
 import { setContext } from "@apollo/client/link/context"
 import { onError } from "@apollo/client/link/error"
 import fetch from "node-fetch"
+import { v4 as uuidv4 } from "uuid"
+import { TokenRefreshLink } from "apollo-link-token-refresh"
+import decode from "jwt-decode"
 
+import { setAuthData, deleteAuthData } from "../hooks/useAuth"
 import { getPersistedAuthData } from "./auth"
 
 const isBrowser = typeof window !== `undefined`
@@ -35,6 +39,55 @@ const cache = new InMemoryCache({
         },
       },
     },
+  },
+})
+
+const getCurrentTimestampInSeconds = () => Math.floor(Date.now() / 1000)
+
+const isTokenExpired = token =>
+  decode(token).exp <= getCurrentTimestampInSeconds()
+
+const tokenRefreshLink = new TokenRefreshLink({
+  accessTokenField: `refreshJwtAuthToken`,
+  isTokenValidOrUndefined: () => {
+    const { authToken } = apolloAuthData()
+    return !authToken || !isTokenExpired(authToken)
+  },
+  fetchAccessToken: () => {
+    const { refreshToken } = apolloAuthData()
+    const query = `
+      mutation RefreshJWTAuthToken($input: RefreshJwtAuthTokenInput!) {
+        refreshJwtAuthToken(input: $input) {
+          authToken
+        }
+      }
+    `
+
+    return fetch(process.env.GATSBY_WPGRAPHQL_URL, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+        variables: {
+          input: {
+            clientMutationId: uuidv4(),
+            jwtRefreshToken: refreshToken || ``,
+          },
+        },
+      }),
+    })
+  },
+  handleFetch: response => {
+    const { authToken } = response
+    setAuthData({ ...apolloAuthData(), authToken })
+  },
+  handleError: error => {
+    console.error(error)
+    deleteAuthData()
   },
 })
 
@@ -74,6 +127,6 @@ const httpLink = createHttpLink({
 })
 
 export const client = new ApolloClient({
-  link: ApolloLink.from([authLink, errorLink, httpLink]),
+  link: ApolloLink.from([tokenRefreshLink, authLink, errorLink, httpLink]),
   cache,
 })
