@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid"
 import useAuth from "../hooks/useAuth"
 import ErrorMessage from "./errorMessage"
 
-const LOG_IN = gql`
+export const LOG_IN = gql`
   mutation logIn(
     $clientMutationId: String!
     $username: String!
@@ -59,17 +59,20 @@ const StyledForm = styled.form`
 function SignInForm() {
   const [email, setEmail] = useState(``)
   const [password, setPassword] = useState(``)
-  const [isEmailValid, setIsEmailValid] = useState(true)
-  const [isPasswordValid, setIsPasswordValid] = useState(true)
+  const { setAuthData } = useAuth()
   const [logIn, { loading, error, data }] = useMutation(LOG_IN)
   const errorMessage = error?.message || ``
-  const { setAuthData } = useAuth()
+  const isEmailValid =
+    !errorMessage.includes(`empty_email`) &&
+    !errorMessage.includes(`empty_username`) &&
+    !errorMessage.includes(`invalid_email`) &&
+    !errorMessage.includes(`invalid_username`)
+  const isPasswordValid =
+    !errorMessage.includes(`empty_password`) &&
+    !errorMessage.includes(`incorrect_password`)
 
   const handleSubmit = e => {
     e.preventDefault()
-    setIsEmailValid(true)
-    setIsPasswordValid(true)
-
     logIn({
       variables: {
         clientMutationId: uuidv4(),
@@ -78,28 +81,6 @@ function SignInForm() {
       },
     })
   }
-
-  // If email field is invalid, update state.
-  React.useEffect(() => {
-    if (
-      errorMessage.includes(`invalid_email`) ||
-      errorMessage.includes(`invalid_username`) ||
-      errorMessage.includes(`empty_email`) ||
-      errorMessage.includes(`empty_username`)
-    ) {
-      setIsEmailValid(false)
-    }
-  }, [errorMessage])
-
-  // If password field is invalid, update state.
-  React.useEffect(() => {
-    if (
-      errorMessage.includes(`incorrect_password`) ||
-      errorMessage.includes(`empty_password`)
-    ) {
-      setIsPasswordValid(false)
-    }
-  }, [errorMessage])
 
   // Set auth data on successful sign in.
   React.useEffect(() => {
@@ -120,6 +101,7 @@ function SignInForm() {
             autoComplete="username"
             value={email}
             onChange={e => setEmail(e.target.value)}
+            required
           />
         </label>
         <label htmlFor="sign-in-password">
@@ -130,6 +112,7 @@ function SignInForm() {
             autoComplete="current-password"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            required
           />
         </label>
         <Link to={`/forgot-password`} className="forgot">
