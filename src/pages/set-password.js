@@ -13,7 +13,10 @@ const StyledPageWrap = styled(PageWrap)`
 `
 
 function ResetPasswordPage(props) {
-  const { key: resetKey, login } = queryString.parse(props.location.search)
+  const { key: resetKey, login, new_account: newAccount } = queryString.parse(
+    props.location.search
+  )
+  const pageTitle = newAccount ? `Set Password` : `Reset Password`
 
   // If reset key or login are missing, send user to Forgot Password page.
   React.useEffect(() => {
@@ -24,9 +27,9 @@ function ResetPasswordPage(props) {
 
   return (
     <Layout>
-      <SEO title="Reset Password" />
+      <SEO title={pageTitle} />
       <StyledPageWrap>
-        <h1>Reset Password</h1>
+        <h1>{pageTitle}</h1>
         <ResetPasswordForm resetKey={resetKey} login={login} />
       </StyledPageWrap>
     </Layout>
