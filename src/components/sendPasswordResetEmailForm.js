@@ -4,7 +4,6 @@ import { useMutation } from "@apollo/client"
 import { v4 as uuidv4 } from "uuid"
 import styled from "styled-components"
 
-import Emoji from "./emoji"
 import GraphqlError from "./graphqlError"
 
 const SEND_PASSWORD_RESET_EMAIL = gql`
@@ -19,16 +18,6 @@ const SEND_PASSWORD_RESET_EMAIL = gql`
         databaseId
       }
     }
-  }
-`
-
-const StyledDiv = styled.div`
-  display: flex;
-  > div:first-of-type {
-    width: 60px;
-  }
-  p {
-    margin: 0;
   }
 `
 
@@ -65,16 +54,7 @@ function SendPasswordResetEmailForm() {
   }
 
   if (wasEmailSent) {
-    return (
-      <StyledDiv>
-        <div>
-          <Emoji symbol="✅" label="Check mark" />
-        </div>
-        <div>
-          <p>Check your email – a password reset link has been sent to you.</p>
-        </div>
-      </StyledDiv>
-    )
+    return <p>Check your email – a password reset link has been sent to you.</p>
   }
 
   return (
