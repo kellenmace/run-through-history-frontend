@@ -39,6 +39,10 @@ const StyledFieldset = styled.fieldset`
   input:checked + label + input + label {
     border-left: 0;
   }
+  /* Label for the input in focus */
+  input:focus + label {
+    border-color: var(--color-yellow-6);
+  }
 `
 
 function HorizontalRadios({ children }) {
