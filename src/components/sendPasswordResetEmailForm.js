@@ -54,7 +54,11 @@ function SendPasswordResetEmailForm() {
   }
 
   if (wasEmailSent) {
-    return <p>Check your email – a password reset link has been sent to you.</p>
+    return (
+      <p>
+        Please check your email – a password reset link has been sent to you.
+      </p>
+    )
   }
 
   return (

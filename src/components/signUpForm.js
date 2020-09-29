@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client"
 import { v4 as uuidv4 } from "uuid"
 import styled from "styled-components"
 
+import HorizontalRadios from "./horizontalRadios"
 import GraphQLError from "./graphqlError"
 import { states } from "../services/utilities"
 
@@ -45,7 +46,9 @@ const StyledForm = styled.form`
   }
   label + label,
   .field-group + label,
-  label + .field-group {
+  label + .field-group,
+  .field-group + fieldset,
+  fieldset + label {
     margin-top: 1rem;
   }
   input,
@@ -102,7 +105,8 @@ function SignUpForm() {
   if (wasSignUpSuccessful) {
     return (
       <p>
-        Check your email – an account confirmation link has been sent to you.
+        Thanks! Check your email – an account confirmation link has been sent to
+        you.
       </p>
     )
   }
@@ -182,31 +186,35 @@ function SignUpForm() {
             </select>
           </label>
         </div>
-        <p>Sex</p>
-        <label>
-          <input
-            type="radio"
-            value="FEMALE"
-            checked={signUpDetails.sex === "FEMALE"}
-            onChange={e =>
-              setSignUpDetails({ ...signUpDetails, sex: e.target.value })
-            }
-            required
-          />
-          Female
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="MALE"
-            checked={signUpDetails.sex === "MALE"}
-            onChange={e =>
-              setSignUpDetails({ ...signUpDetails, sex: e.target.value })
-            }
-            required
-          />
-          Male
-        </label>
+        <HorizontalRadios>
+          <legend>Sex</legend>
+          <div className="inputs">
+            <input
+              type="radio"
+              id="female"
+              value="FEMALE"
+              className="screen-reader"
+              checked={signUpDetails.sex === "FEMALE"}
+              onChange={e =>
+                setSignUpDetails({ ...signUpDetails, sex: e.target.value })
+              }
+              required
+            />
+            <label htmlFor="female">Female</label>
+            <input
+              type="radio"
+              id="male"
+              value="MALE"
+              className="screen-reader"
+              checked={signUpDetails.sex === "MALE"}
+              onChange={e =>
+                setSignUpDetails({ ...signUpDetails, sex: e.target.value })
+              }
+              required
+            />
+            <label htmlFor="male">Male</label>
+          </div>
+        </HorizontalRadios>
         <label>
           Date of birth
           <input
