@@ -36,6 +36,8 @@ function NavLink({ children, isActive, ...props }) {
     }
   }
 
+  // $isActive is passed in as a Styled Components transient prop.
+  // Docs: https://styled-components.com/docs/api#transient-props
   return (
     <StyledLink $isActive={isActive} {...props} onClick={handleClick}>
       {children}
