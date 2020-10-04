@@ -23,6 +23,7 @@
     "gatsby-transformer-sharp": "^2.5.13",
     "html-react-parser": "^0.14.0",
     "jwt-decode": "^3.0.0-beta.2",
+    "lodash": "^4.17.20",
     "node-fetch": "^2.6.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.2",
@@ -31,7 +32,8 @@
     "react-helmet": "^6.1.0",
     "react-toast-notifications": "^2.4.0",
     "styled-components": "^5.1.1",
-    "styled-normalize": "^8.0.7"
+    "styled-normalize": "^8.0.7",
+    "use-sound": "^1.0.2"
   },
   "devDependencies": {
     "prettier": "2.1.0"

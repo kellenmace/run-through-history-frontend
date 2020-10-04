@@ -5,13 +5,16 @@ import { ToastProvider } from "react-toast-notifications"
 import { NetworkProvider } from "./src/hooks/useNetwork"
 import { client } from "./src/services/apollo"
 import { AuthProvider } from "./src/hooks/useAuth"
+import { SoundsProvider } from "./src/hooks/useSounds"
 import { SERVICE_WORKER_UPDATE_FOUND } from "./src/components/navLink"
 
 export const wrapRootElement = ({ element }) => (
   <NetworkProvider>
     <ApolloProvider client={client}>
       <AuthProvider>
-        <ToastProvider autoDismiss={true}>{element}</ToastProvider>
+        <ToastProvider autoDismiss={true}>
+          <SoundsProvider>{element}</SoundsProvider>
+        </ToastProvider>
       </AuthProvider>
     </ApolloProvider>
   </NetworkProvider>
