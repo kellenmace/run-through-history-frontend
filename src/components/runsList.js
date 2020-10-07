@@ -39,7 +39,7 @@ const StyledUl = styled.ul`
   }
 `
 
-const batchSize = 6
+export const batchSize = 6
 
 function RunsList() {
   const { user } = useAuth()

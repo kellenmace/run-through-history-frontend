@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { useMutation } from "@apollo/client"
 import gql from "graphql-tag"
 import { v4 as uuidv4 } from "uuid"
