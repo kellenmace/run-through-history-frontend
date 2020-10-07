@@ -1,16 +1,16 @@
-import React from "react"
+import React, { useState, useEffect, createContext, useContext } from "react"
 
 import useHasMounted from "./useHasMounted"
 
-const NetworkContext = React.createContext()
+const NetworkContext = createContext()
 
 export function NetworkProvider({ children }) {
   const hasMounted = useHasMounted()
   const initialValue = hasMounted ? window.navigator.onLine : true
-  const [isOnline, setNetwork] = React.useState(initialValue)
+  const [isOnline, setNetwork] = useState(initialValue)
   const updateNetwork = () => setNetwork(window.navigator.onLine)
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener(`offline`, updateNetwork)
     window.addEventListener(`online`, updateNetwork)
     return () => {
@@ -26,6 +26,6 @@ export function NetworkProvider({ children }) {
   )
 }
 
-const useNetwork = () => React.useContext(NetworkContext)
+const useNetwork = () => useContext(NetworkContext)
 
 export default useNetwork

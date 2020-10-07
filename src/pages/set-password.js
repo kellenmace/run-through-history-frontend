@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import queryString from "query-string"
 import { navigate } from "gatsby"
@@ -19,7 +19,7 @@ function ResetPasswordPage(props) {
   const pageTitle = newAccount ? `Set Password` : `Reset Password`
 
   // If reset key or login are missing, send user to Forgot Password page.
-  React.useEffect(() => {
+  useEffect(() => {
     if (!resetKey || !login) {
       navigate(`/forgot-password`)
     }

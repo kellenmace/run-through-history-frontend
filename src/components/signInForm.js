@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 import gql from "graphql-tag"
@@ -83,7 +83,7 @@ function SignInForm() {
   }
 
   // Set auth data on successful sign in.
-  React.useEffect(() => {
+  useEffect(() => {
     const wasLogInSuccessful = !!data?.login
     if (!wasLogInSuccessful) return
     const { authToken, refreshToken, user } = data.login

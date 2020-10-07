@@ -1,4 +1,4 @@
-import React from "react"
+import React, { createContext, useContext } from "react"
 import gql from "graphql-tag"
 import { useQuery } from "@apollo/client"
 
@@ -6,7 +6,7 @@ import { apolloAuthData, client } from "../services/apollo"
 import { setPersistedAuthData, deletePersistedAuthData } from "../services/auth"
 import useAuthTokenRefresher from "./useAuthTokenRefresher"
 
-const AuthContext = React.createContext()
+const AuthContext = createContext()
 
 const GET_APOLLO_AUTH_DATA = gql`
   query getApolloAuthData {
@@ -47,6 +47,6 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-const useAuth = () => React.useContext(AuthContext)
+const useAuth = () => useContext(AuthContext)
 
 export default useAuth

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { navigate } from "gatsby"
 
 import useAuth from "../hooks/useAuth"
@@ -9,7 +9,7 @@ import SignIn from "../components/signIn"
 function SignInPage() {
   const { signedIn } = useAuth()
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (signedIn) {
       navigate(`/runs`)
     }

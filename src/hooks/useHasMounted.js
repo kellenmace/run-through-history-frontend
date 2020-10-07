@@ -1,12 +1,12 @@
-import React from "react"
+import { useState, useEffect } from "react"
 
 /**
  * Returns true if the component has mounted, else false.
  */
 function useHasMounted() {
-  const [hasMounted, setHasMounted] = React.useState(false)
+  const [hasMounted, setHasMounted] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setHasMounted(true)
   }, [])
 

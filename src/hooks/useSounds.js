@@ -1,11 +1,11 @@
-import React from "react"
+import React, { createContext, useContext } from "react"
 import useSound from "use-sound"
 
 import marioCoinSound from "../sounds/mario-coin.mp3"
 import applauseSound from "../sounds/applause.mp3"
 import fanfareSound from "../sounds/fanfare.mp3"
 
-const SoundsContext = React.createContext()
+const SoundsContext = createContext()
 
 export function SoundsProvider({ children }) {
   const [playMarioCoinSound] = useSound(marioCoinSound, { volume: 0.25 })
@@ -19,6 +19,6 @@ export function SoundsProvider({ children }) {
   )
 }
 
-const useSounds = () => React.useContext(SoundsContext)
+const useSounds = () => useContext(SoundsContext)
 
 export default useSounds

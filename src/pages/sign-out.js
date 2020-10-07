@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 
 import useAuth from "../hooks/useAuth"
@@ -14,7 +14,7 @@ const StyledPageWrap = styled(PageWrap)`
 function SignOutPage() {
   const { deleteAuthData } = useAuth()
 
-  React.useEffect(() => {
+  useEffect(() => {
     deleteAuthData()
   }, [deleteAuthData])
 

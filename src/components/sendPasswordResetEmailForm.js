@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import gql from "graphql-tag"
 import { useMutation } from "@apollo/client"
 import { v4 as uuidv4 } from "uuid"
@@ -34,7 +34,7 @@ const StyledForm = styled.form`
 `
 
 function SendPasswordResetEmailForm() {
-  const [email, setEmail] = React.useState(``)
+  const [email, setEmail] = useState(``)
   const [sendPasswordResetEmail, { loading, error, data }] = useMutation(
     SEND_PASSWORD_RESET_EMAIL
   )

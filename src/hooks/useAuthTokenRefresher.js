@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useMutation } from "@apollo/client"
 import gql from "graphql-tag"
 import { v4 as uuidv4 } from "uuid"
@@ -29,7 +29,7 @@ function useAuthTokenRefresher(apolloAuthData, setAuthData, deleteAuthData) {
    * If we have a refresh token but no auth token, fire off
    * the mutation to get a new auth token and cache it.
    */
-  React.useEffect(() => {
+  useEffect(() => {
     const authToken = apolloAuthData?.authToken || null
     const refreshToken = apolloAuthData?.refreshToken || null
     const shouldRefreshAuthToken = !authToken && !!refreshToken && isOnline
