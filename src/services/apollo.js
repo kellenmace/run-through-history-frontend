@@ -7,6 +7,7 @@ import {
 } from "@apollo/client"
 import { setContext } from "@apollo/client/link/context"
 import { onError } from "@apollo/client/link/error"
+import { relayStylePagination } from "@apollo/client/utilities"
 import fetch from "node-fetch"
 import { v4 as uuidv4 } from "uuid"
 import { TokenRefreshLink } from "apollo-link-token-refresh"
@@ -37,6 +38,7 @@ const cache = new InMemoryCache({
             return apolloAuthData()
           },
         },
+        runs: relayStylePagination(),
       },
     },
   },

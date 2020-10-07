@@ -7,6 +7,7 @@ import SEO from "../components/seo"
 import PageWrap from "../components/pageWrap"
 import AuthContent from "../components/authContent"
 import TotalMiles from "../components/totalMiles"
+import RunsList from "../components/runsList"
 
 const StyledPageWrap = styled(PageWrap)`
   max-width: 600px;
@@ -46,6 +47,7 @@ function RunsPage() {
               <p className="button">+ Add run</p>
             </Link>
           </div>
+          <RunsList />
         </AuthContent>
       </StyledPageWrap>
     </Layout>
