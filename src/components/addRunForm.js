@@ -6,11 +6,9 @@ import { navigate } from "gatsby"
 import { useToasts } from "react-toast-notifications"
 import styled from "styled-components"
 
-import useAuth from "../hooks/useAuth"
 import useSounds from "../hooks/useSounds"
-// import { GET_LEADERBOARD, sexEnumLookup } from "../hooks/useLeaderboard"
-import useTotalMiles, { GET_TOTAL_MILES } from "../hooks/useTotalMiles"
-import { GET_RUNS, batchSize } from "./runsList"
+import useRefetchQueries from "../hooks/useRefetchQueries"
+import useTotalMiles from "../hooks/useTotalMiles"
 import ErrorMessage from "./errorMessage"
 import RandomSuccessMessage from "./randomSuccessMessage"
 
@@ -61,8 +59,7 @@ const StyledForm = styled.form`
 `
 
 function AddRunForm({ awards }) {
-  const { user } = useAuth()
-  const userId = user.databaseId
+  const refetchQueries = useRefetchQueries()
   const { addToast } = useToasts()
   const {
     playMarioCoinSound,
@@ -72,29 +69,7 @@ function AddRunForm({ awards }) {
   const { totalMiles } = useTotalMiles()
   const prevTotalMiles = totalMiles || 0
   const [createRun, { loading, error, data }] = useMutation(CREATE_RUN, {
-    refetchQueries: [
-      { query: GET_TOTAL_MILES },
-      {
-        query: GET_RUNS,
-        variables: { first: batchSize, after: null, userId },
-      },
-      // TODO
-      // {
-      //   // Refetch runs for user's age group.
-      //   query: GET_LEADERBOARD,
-      //   variables: {
-      //     sex: sexEnumLookup[user.sex],
-      //     ageGroup: `_${user.ageGroup}`,
-      //   },
-      // },
-      // {
-      //   // Refetch all runs for user's sex.
-      //   query: GET_LEADERBOARD,
-      //   variables: {
-      //     sex: sexEnumLookup[user.sex],
-      //   },
-      // },
-    ],
+    refetchQueries,
   })
   const [date, setDate] = useState(
     () => new Date().toISOString().split("T")[0] // Current date in yyyy-mm-dd format.
@@ -132,6 +107,8 @@ function AddRunForm({ awards }) {
 
   // Handle successful run creation
   useEffect(() => {
+    // TODO:
+    // This is sometimes firing three times. Maybe implement a "lock".
     if (!data) return
 
     const newTotalMiles = data.createRun.run.author.node.userFields.totalMiles

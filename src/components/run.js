@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import Miles from "./miles"
-// import DeleteRunButton from "./deleteRunButton"
+import DeleteRunButton from "./deleteRunButton"
 
 const StyledLi = styled.li`
   display: flex;
@@ -45,7 +45,7 @@ function Run(props) {
 
   return (
     <StyledLi>
-      {/* <DeleteRunButton id={id} /> */}
+      <DeleteRunButton id={id} />
       <p>{formatDate(date)}</p>
       <Miles miles={miles} />
     </StyledLi>
