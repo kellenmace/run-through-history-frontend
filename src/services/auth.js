@@ -6,8 +6,5 @@ export const getPersistedAuthData = () =>
 export const setPersistedAuthData = authData =>
   localStorage.setItem(AUTH_DATA_KEY, JSON.stringify(authData))
 
-export const setPersistedRefreshToken = refreshToken =>
-  setPersistedAuthData({ ...getPersistedAuthData(), refreshToken })
-
 export const deletePersistedAuthData = () =>
   localStorage.removeItem(AUTH_DATA_KEY)

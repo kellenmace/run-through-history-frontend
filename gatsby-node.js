@@ -1,10 +1,11 @@
 const path = require("path")
 const orderBy = require("lodash/orderBy")
-const { rest } = require("lodash")
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
   const addRunTemplate = path.resolve(`src/templates/add-run.js`)
+  const timelineTemplate = path.resolve(`src/templates/timeline.js`)
+  const awardTemplate = path.resolve(`src/templates/award.js`)
 
   const awardsQuery = await graphql(`
     query getAwards {
@@ -53,6 +54,30 @@ exports.createPages = async ({ graphql, actions }) => {
     context: {
       awards,
     },
+  })
+
+  // Create Timeline page
+  console.log(`Creating page: /timeline`)
+  createPage({
+    path: `/timeline`,
+    component: timelineTemplate,
+    context: {
+      awards,
+    },
+  })
+
+  // Create individual award pages.
+  awards.forEach(award => {
+    const { slug } = award
+
+    console.log(`Creating page: /awards/${slug}`)
+    createPage({
+      path: `/awards/${slug}`,
+      component: awardTemplate,
+      context: {
+        award,
+      },
+    })
   })
 }
 
