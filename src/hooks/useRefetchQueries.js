@@ -1,6 +1,6 @@
 import useAuth from "./useAuth"
 import { GET_TOTAL_MILES } from "./useTotalMiles"
-// import { GET_LEADERBOARD, sexEnumLookup } from "./useLeaderboard"
+import { GET_LEADERBOARD, sexEnum } from "./useLeaderboard"
 import { GET_RUNS, batchSize } from "../components/runsList"
 
 function useRefetchQueries() {
@@ -13,21 +13,21 @@ function useRefetchQueries() {
       query: GET_RUNS,
       variables: { first: batchSize, after: null, userId },
     },
-    // {
-    //   // Refetch runs for user's age group.
-    //   query: GET_LEADERBOARD,
-    //   variables: {
-    //     sex: sexEnumLookup[user.sex],
-    //     ageGroup: `_${user.ageGroup}`,
-    //   },
-    // },
-    // {
-    //   // Refetch all runs for user's sex.
-    //   query: GET_LEADERBOARD,
-    //   variables: {
-    //     sex: sexEnumLookup[user.sex],
-    //   },
-    // },
+    {
+      // Refetch runs for user's age group.
+      query: GET_LEADERBOARD,
+      variables: {
+        sex: sexEnum[user.sex],
+        ageGroup: `_${user.ageGroup}`,
+      },
+    },
+    {
+      // Refetch all runs for user's sex.
+      query: GET_LEADERBOARD,
+      variables: {
+        sex: sexEnum[user.sex],
+      },
+    },
   ]
 }
 

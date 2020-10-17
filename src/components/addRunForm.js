@@ -107,8 +107,6 @@ function AddRunForm({ awards }) {
 
   // Handle successful run creation
   useEffect(() => {
-    // TODO:
-    // This is sometimes firing three times. Maybe implement a "lock".
     if (!data) return
 
     const newTotalMiles = data.createRun.run.author.node.userFields.totalMiles
