@@ -50,8 +50,8 @@ module.exports = {
       resolve: `gatsby-source-wordpress-experimental`,
       options: {
         url: process.env.GATSBY_WPGRAPHQL_URL,
-        // `runs` is excluded here since the `fetching nodes` part of the
-        // Gatsby build process fails if there are a lot of posts.
+        // These fields are excluded because we don't need query them
+        // at buildtime, and it protects against timeouts.
         excludeFieldNames: [
           `runs`,
           `comments`,

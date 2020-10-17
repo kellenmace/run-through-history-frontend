@@ -10,11 +10,12 @@ function useRefetchQueries() {
   return [
     { query: GET_TOTAL_MILES },
     {
+      // Refresh the user's list of runs.
       query: GET_RUNS,
       variables: { first: batchSize, after: null, userId },
     },
     {
-      // Refetch runs for user's age group.
+      // Refetch leaderboard counts for user's age group.
       query: GET_LEADERBOARD,
       variables: {
         sex: sexEnum[user.sex],
@@ -22,7 +23,7 @@ function useRefetchQueries() {
       },
     },
     {
-      // Refetch all runs for user's sex.
+      // Refetch leaderboard counts for user's sex.
       query: GET_LEADERBOARD,
       variables: {
         sex: sexEnum[user.sex],
