@@ -14,9 +14,10 @@ const GlobalStyles = createGlobalStyle`
     --content-padding: 1rem;
     --fixed-nav-offset: calc(120px + var(--content-padding));
     --vertical-spacing: 6rem;
+    --color-white: #FFF;
+    --color-brown: #8B5E3B;
 
     /* Color palette #6 from Refactoring UI */
-    --color-white: #FFF;
     --color-grey-1: #27241D;
     --color-grey-2: #423D33;
     --color-grey-3: #504A40;
@@ -111,7 +112,7 @@ const GlobalStyles = createGlobalStyle`
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-family-accent);
-    color: var(--color-yellow-1);
+    color: var(--color-brown);
     letter-spacing: 1px;
   }
   h1 {

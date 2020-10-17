@@ -10,7 +10,6 @@ import TotalMiles from "../components/totalMiles"
 import RunsList from "../components/runsList"
 
 const StyledPageWrap = styled(PageWrap)`
-  max-width: 600px;
   .top {
     display: flex;
     justify-content: space-between;

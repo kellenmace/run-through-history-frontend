@@ -16,6 +16,7 @@ const StyledNav = styled.nav`
   left: 0;
   right: 0;
   z-index: 1;
+  max-width: 100vw;
   ul {
     margin: 0;
     padding: 0;
