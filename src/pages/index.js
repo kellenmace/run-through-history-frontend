@@ -7,13 +7,11 @@ import Description from "../components/description"
 
 function IndexPage() {
   return (
-    <>
-      <Layout>
-        <SEO title="Run Through History" />
-        <Hero />
-        <Description />
-      </Layout>
-    </>
+    <Layout>
+      <SEO title="Run Through History" />
+      <Hero />
+      <Description />
+    </Layout>
   )
 }
 
